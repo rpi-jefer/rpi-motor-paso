@@ -1,0 +1,87 @@
+<!-- Desarrollado Por Jefferson Rivera -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyecto Motor a Paso</title>
+
+<!-- Llamamos las hojas de estilos y los js  -->
+<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.mobile-1.4.2.min.js"></script>
+<style>
+.flecha_v{
+  transform:rotate(90deg);
+  -ms-transform:rotate(90deg); /* IE 9 */
+  -webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */
+}
+.fondo1{
+  background-color:#0083ca !important; 
+  color: #fff;
+}
+.fondo2{
+  background-color:#610B4B !important; 
+  color: #fff;
+}
+</style>
+<!-- Código para detectar el cambio de orientación del dispositivo -->
+<script>
+$(document).on("pagecreate",function(event){
+  $(window).on("orientationchange",function(event){
+    var ori = event.orientation;
+    if(event.orientation=='portrait'){
+      $("#cambio").text('VERTICAL');
+      $("#flecha").addClass('flecha_v');
+      $("body").addClass('fondo1');
+      $("body").removeClass('fondo2');
+      // Envio del Ajax
+      $.ajax({
+        type: "POST",
+        url: "vertical.php",
+        data: { valor: "V"}
+      })
+      .done(function( msg ) {
+        console.log( "OK_V: " + msg );
+      });
+    }
+    else{
+      $("#cambio").text('HORIZONTAL');
+      $("#flecha").removeClass('flecha_v');
+      $("#flecha").html('<img src="images/flecha.png">');
+      $("body").addClass('fondo2');
+      $("body").removeClass('fondo1');
+      // Envio del Ajax
+      $.ajax({
+        type: "POST",
+        url: "horizontal.php",
+        data: { valor: "H"}
+      })
+      .done(function( msg ) {
+        console.log( "OK_H: " + msg );
+      });
+    }
+  });                     
+});
+</script>
+</head>
+<body>
+<!-- Plantilla jQuery Mobile -->
+<div data-role="page" data-theme="c">
+  <div data-role="header" data-theme="b">
+    <h1>Proyecto Motor a Paso</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+    <h2 id="cambio">Gire el Dispositivo</h2>
+    <br>
+    <div id="flecha" align="center"></div>
+    <br><br>
+  </div>
+  <div data-role="footer" data-theme="b" data-position="fixed">
+    <h1>&copy; Desarrollado Por Jefferson Rvera</h1>
+  </div>
+</div> 
+</body>
+</html>
+
